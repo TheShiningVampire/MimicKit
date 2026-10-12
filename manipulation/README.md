@@ -13,6 +13,7 @@ Start with the plan, then the explainer video.
 | Open-source codebase survey (InterMimic, SkillMimic, ManipTrans, HDMI, ...) | [report/03_codebase_survey.md](report/03_codebase_survey.md) |
 | Dataset survey (licences, access, schemas) | [report/04_datasets_survey.md](report/04_datasets_survey.md) |
 | Whole-body control vs manipulation: the differences | [report/05_differences_whole_body_vs_manipulation.md](report/05_differences_whole_body_vs_manipulation.md) |
+| Deep research with adversarial claim verification (reward design, data repair, curricula, sim-to-real) | [report/06_deep_research_hoi_rl.md](report/06_deep_research_hoi_rl.md) |
 | Sample datasets (small, committed) and manifest | [datasets/](datasets/) |
 | Tools: motion format v2, converters, synthetic clip, viewer | [tools/](tools/) |
 | Explainer video (3Blue1Brown style, manim + TTS) | [video/](video/) |

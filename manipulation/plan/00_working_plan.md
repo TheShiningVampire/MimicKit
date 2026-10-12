@@ -7,13 +7,14 @@ Status: v1, written 2026-10-12 (overnight research run). Companion documents:
 - [03_codebase_survey.md](../report/03_codebase_survey.md): the open-source codebases closest to "MimicKit for manipulation", with reward/obs details.
 - [04_datasets_survey.md](../report/04_datasets_survey.md): human manipulation datasets, licences, access, schemas, and what was downloaded.
 - [05_differences_whole_body_vs_manipulation.md](../report/05_differences_whole_body_vs_manipulation.md): the conceptual differences, in one place.
+- [06_deep_research_hoi_rl.md](../report/06_deep_research_hoi_rl.md): fan-out deep research with 3-vote adversarial verification of every claim; confirms the reward and data-repair choices, flags unverifiable numbers.
 
 ## 0. Decisions made overnight (you can overrule any of these)
 
 1. **Same learning setup as MimicKit.** State-action RL in a GPU physics simulator, PPO, a human reference clip per episode, reference state initialization, tracking reward. No behaviour cloning, no vision-language-action model. Those appear in the survey only as context.
 2. **Track A first: whole-body humanoid + rigid object, on the Unitree G1 that MimicKit already has.** Reason: the OmniRetarget dataset (MIT, ungated, 3 h of G1 + object clips retargeted from OMOMO) matches MimicKit's existing `g1` character almost one-to-one, so the first result needs no retargeting work and no SMPL-X licence.
 3. **Track B second: dexterous hand (floating wrist + fingers) tracking hand+object clips**, following ManipTrans / Dexplore. This is where "manipulation" in the fine-motor sense lives, but it needs a hand asset and a retargeting step first.
-4. **Reward follows PhysHOI / InterMimic (multiplicative body x object x relative x contact)** rather than a weighted sum, because every paper that compared them found the sum lets the policy track the body and drop the object.
+4. **Reward follows PhysHOI / SkillMimic (multiplicative body x object x relative x contact)** rather than a weighted sum: SkillMimic's ablation drops success from 82.4% to 7.5% with a sum. The newer InterMimic / HumanX / InterReal line uses sums but adds interaction-specific termination and learned reward weights; phase 1 ablates both and implements object-deviation and contact-mismatch termination from the start (see report 06).
 5. **Reference implementation to study: InterMimic** (MIT, Isaac Gym + Isaac Lab, SMPL-X and G1 variants). Reference for the G1 / Isaac Lab path: HDMI and ResMimic.
 6. **Sample data was downloaded to** `/data/user_data/vawale/MimicKit/manip_data/` (large) and a small curated subset is committed under `manipulation/datasets/samples/`.
 
