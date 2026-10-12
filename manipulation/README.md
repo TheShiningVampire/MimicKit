@@ -3,7 +3,7 @@
 Research package for extending MimicKit's state-action RL motion imitation (DeepMimic, AMP, ASE, ADD, SMP)
 from whole-body control to **manipulation learned from human hand+object data**. Produced 2026-10-12.
 
-Start with the plan, then the explainer video.
+Start with the plan, then the explainer video. Everything below is also compiled into one readable file: [SURVEY.md](SURVEY.md).
 
 | Item | Path |
 |---|---|
