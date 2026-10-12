@@ -12,7 +12,7 @@ Status: v1, written 2026-10-12 (overnight research run). Companion documents:
 ## 0. Decisions made overnight (you can overrule any of these)
 
 1. **Same learning setup as MimicKit.** State-action RL in a GPU physics simulator, PPO, a human reference clip per episode, reference state initialization, tracking reward. No behaviour cloning, no vision-language-action model. Those appear in the survey only as context.
-2. **Track A first: whole-body humanoid + rigid object, on the Unitree G1 that MimicKit already has.** Reason: the OmniRetarget dataset (MIT, ungated, 3 h of G1 + object clips retargeted from OMOMO) matches MimicKit's existing `g1` character almost one-to-one, so the first result needs no retargeting work and no SMPL-X licence.
+2. **Track A first: whole-body humanoid + rigid object, on the Unitree G1 that MimicKit already has.** Reason: the HOI-Retarget (CC BY-NC-SA, ungated, 13.9k clips) and OmniRetarget (MIT, ungated, 3 h) datasets ship G1 + object clips whose 29-joint order matches MimicKit's existing `g1` character, so the first result needs no retargeting work and no SMPL-X licence.
 3. **Track B second: dexterous hand (floating wrist + fingers) tracking hand+object clips**, following ManipTrans / Dexplore. This is where "manipulation" in the fine-motor sense lives, but it needs a hand asset and a retargeting step first.
 4. **Reward follows PhysHOI / SkillMimic (multiplicative body x object x relative x contact)** rather than a weighted sum: SkillMimic's ablation drops success from 82.4% to 7.5% with a sum. The newer InterMimic / HumanX / InterReal line uses sums but adds interaction-specific termination and learned reward weights; phase 1 ablates both and implements object-deviation and contact-mismatch termination from the start (see report 06).
 5. **Reference implementation to study: InterMimic** (MIT, Isaac Gym + Isaac Lab, SMPL-X and G1 variants). Reference for the G1 / Isaac Lab path: HDMI and ResMimic.
@@ -47,7 +47,7 @@ The full comparison is in report 05. The short version, which also drives the de
 ### Track A: G1 + rigid object (start here)
 
 - Character: existing `data/assets/g1/g1.xml` (29 DoF). Hands stay fixed stubs in phase 1; carrying uses forearms and palms, as in OmniRetarget and ResMimic.
-- Data: OmniRetarget `robot-object/` clips (`qpos[T, 43]` = base pos 3, base quat 4, 29 joints, object quat 4, object pos 3; 30 fps), objects as OBJ meshes. Converter: `manipulation/tools/convert_omniretarget_to_mimickit.py`.
+- Data: HOI-Retarget G1 clips (parquet: root pos, root quat wxyz, 29 joints in g1.xml order, object pos/quat, palm and ankle contact flags; 30 fps; CC BY-NC-SA) converted with `manipulation/tools/convert_hoiretarget_to_mimickit.py` (done, four samples committed), and OmniRetarget `robot-object/` clips (`qpos[T, 43]` = base pos 3, base quat 4, 29 joints, object quat 4, object pos 3; 30 fps; MIT) with a sibling converter still to write.
 - Env: `DeepMimicHOIEnv` from the design document, one dynamic rigid object per env.
 - First milestone: one box-carry clip tracked for its full length with object error < 10 cm in > 90% of episodes.
 
